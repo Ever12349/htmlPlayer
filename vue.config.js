@@ -37,6 +37,7 @@ module.exports = {
         // html中添加cdn
         // console.log(args, 'args')
         args[0].cdn = cdn;
+        args[0].is_prod = IS_PROD;
         return args;
       });
 
