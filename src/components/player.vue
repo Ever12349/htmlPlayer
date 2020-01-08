@@ -1,9 +1,9 @@
 <template>
-  <div @click="mediaToggle" class="player_bg">
+  <div class="player_bg">
     <input
       ref="fileInput"
       type="file"
-      @input="getFiles"
+      @change="getFiles"
       multiple
       accept="video/*"
       style="display:none"
@@ -18,8 +18,8 @@
       />
     </div>
     <video
-      v-if="viedo_flag"
       v-show="show_viedo_flag"
+      @click.stop="mediaToggle"
       ref="viedo_player"
       class="viedo_player"
       :src="current_viedo_src"
@@ -36,6 +36,7 @@
 <script>
 let player = null;
 let inputDom = null;
+import { getObjectURL } from "../js/uitil.js";
 export default {
   model: {
     prop: "progressValue",
@@ -51,7 +52,7 @@ export default {
   },
   data() {
     return {
-      viedo_flag: true,
+      // viedo_flag: true,
       show_icon_flag: true,
       show_viedo_flag: false,
       current_viedo_src: null,
@@ -75,7 +76,7 @@ export default {
       if (this.viedo_data.is_playing) {
         player.pause();
       } else {
-        this.viedo_flag = true;
+        // this.viedo_flag = true;
         player.play();
       }
     },
@@ -104,10 +105,10 @@ export default {
     },
     mediaPlay() {
       console.log("mediaPlay", this.viedoData);
-      if (this.viedoData && this.viedoData.src === this.current_viedo_src) {
-        return false;
-      }
-      this.viedo_flag = true;
+      // if (this.viedoData && this.viedoData.src === this.current_viedo_src) {
+      //   return false;
+      // }
+      // this.viedo_flag = true;
       player.load();
       // try {
       //   this.mediaStop();
@@ -140,8 +141,8 @@ export default {
       this.viedo_data.is_playing = false;
       this.viedo_data.duration = 0;
       this.viedo_data.currentTime = 0;
-      this.viedo_data.currentSrc = null;
-      this.viedo_data.viedo_name = null;
+      // this.viedo_data.currentSrc = null;
+      // this.viedo_data.viedo_name = null;
       this.show_icon_flag = true;
       this.show_viedo_flag = false;
 
@@ -167,7 +168,7 @@ export default {
       // });
     },
     playing() {
-      // console.log("player", this.viedo_data);
+      console.log("player", this.viedo_data, this.viedoData);
       this.show_icon_flag = false;
       this.show_viedo_flag = true;
 
@@ -176,8 +177,9 @@ export default {
       this.viedo_data.currentTime = player.currentTime;
       this.viedo_data.currentSrc = player.currentSrc;
       this.viedo_data.viedo_name = this.viedoData
-        ? this.viedoData.viedo_name
+        ? this.viedoData.viedo_name || this.viedo_data.viedo_name
         : this.viedo_data.viedo_name;
+      console.log("playerssssss", this.viedo_data.viedo_name, this.viedoData);
 
       // this.viedo_data.viedo_name = player.
       this.emitViedioDetail(this.viedo_data);
@@ -216,7 +218,7 @@ export default {
       file_list.sort();
       file_list.forEach((files, index) => {
         console.log(files, "ffffffff");
-        const url = window.URL.createObjectURL(files);
+        const url = getObjectURL(files);
         if (index == 0) {
           this.current_viedo_src = url;
           this.show_icon_flag = false;

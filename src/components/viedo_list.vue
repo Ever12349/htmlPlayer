@@ -23,7 +23,7 @@
     <input
       ref="fileInput"
       type="file"
-      @input="getFiles"
+      @change="getFiles"
       multiple
       accept="video/*"
       style="display:none"
@@ -33,6 +33,7 @@
 
 <script>
 // const classNameString = []
+import { getObjectURL } from "../js/uitil.js";
 export default {
   data() {
     return {
@@ -76,7 +77,7 @@ export default {
       console.log(file_list);
       file_list.forEach(file => {
         const viedo_name = file.name,
-          url = window.URL.createObjectURL(file);
+          url = getObjectURL(file);
 
         const viedo_list_item = {
           viedo_name,
@@ -104,6 +105,7 @@ export default {
     },
     ondbclick(v1, v2) {
       console.log(v1, v2);
+      v1.is_playing = true;
       this.$emit("playViedo", v1);
     }
   }

@@ -153,9 +153,9 @@ export default {
       this.is_playing = data.is_playing;
       this.current_time = data.currentTime;
       this.duraton = data.duration;
-      if (!data.is_playing) {
-        this.viedo_data = null;
-      }
+      // if (!data.is_playing) {
+      //   this.viedo_data = null;
+      // }
     },
     setNewProgress(progress) {
       // console.log(progress, "progress");
@@ -163,7 +163,8 @@ export default {
     },
     playViedo(viedo) {
       this.viedo_data = viedo;
-      console.log(viedo);
+      // this.$set(this, "viedo_data", viedo);
+      console.log(viedo, "sssss,,,,,,,,,");
       this.$nextTick(() => {
         this.play();
       });
