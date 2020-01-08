@@ -2,7 +2,7 @@
 const IS_PROD = ["production", "prod"].includes(process.env.NODE_ENV);
 
 module.exports = {
-  publicPath: IS_PROD ? 'htmlPlayer/' : '/', // 默认'/'，部署应用包时的基本 URL
+  publicPath: IS_PROD ? './' : '/', // 默认'/'，部署应用包时的基本 URL
   lintOnSave: false,
   filenameHashing: !IS_PROD,
   productionSourceMap: false,
